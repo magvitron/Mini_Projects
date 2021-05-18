@@ -1,0 +1,16 @@
+Algorithm Psudocode
+1. Start :
+2. input PV voltage, PV current, Battery % in EV, Battery % in Battery Bank, Grid peak Time.
+3. if grid peak time is in between 17:00 and 20:00 or 8:00 to 12:00 then go to 4
+4. if Bat%inBattBank < 10% then goto 5 else goto 6
+5. Charge from Grid
+6. Charge from BattBank
+
+MODE1: PV to Battery
+MODE2: PV to Electric Vehicle 
+MODE3: Battery Bank to EV
+MODE4: AC grid to EV
+MODE5: PV to AC grid 
+
+
+ 
