@@ -1,3 +1,5 @@
+TimeLine 24/25th: Final presentation to the college people
+
 1. how will the diffrent voltages will be handled
   1.1 How to make it same. Diffrent voltages to single
   1.2 
@@ -5,12 +7,6 @@
 2. Diffrent voltage -> how did you are managing this?
    1. PV -> we will manage this by the solar power planning: 300 V 2S
    2. EV Battery Charger -> 300V - 500V for EV charger (Ampere: ?) -> New input for me
-   3. Grid : 48 -> 300 
-   4. 
+   3. Grid : 48 -> 300V
+   4. Battery is 300 V for the system, EV and BS
 
-3.  
-
-
-
-
-car: 300V
