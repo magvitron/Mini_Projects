@@ -1,0 +1,4 @@
+LIBRARY V3_2_MatlabFn_sfun.mexw64
+EXPORTS
+mexFunction
+mexfilerequiredapiversion

@@ -1,0 +1,29 @@
+CC     = "D:\program files\Matlab\sys\lcc64\lcc64\bin\lcc64.exe"
+LD     = "D:\program files\Matlab\sys\lcc64\lcc64\bin\lcclnk64.exe"
+LIBCMD = "D:\program files\Matlab\sys\lcc64\lcc64\bin\lcclib64.exe"
+CFLAGS = -dll -noregistrylookup  -c -Zp8 -DLCC_WIN64 -DMATLAB_MEX_FILE -nodeclspec -DMX_COMPAT_32 
+LDFLAGS = -s -dll -L"D:\program files\Matlab\sys\lcc64\lcc64\lib64" -entry LibMain -map sfun.map 
+LIBFLAGS = 
+
+OBJECTS = \
+	"V3_2_MatlabFn_UnitTest_sfun.obj"\
+	"c1_V3_2_MatlabFn_UnitTest.obj"\
+	"V3_2_MatlabFn_UnitTest_sfun_registry.obj"\
+	"lccstub.obj"\
+	"c_mexapi_version.obj"\
+
+INCLUDE_PATH= -I"D:\program files\Matlab\extern\include"  -I"D:\program files\Matlab\simulink\include"  -I"D:\program files\Matlab\simulink\include\sf_runtime"  -I"D:\program files\Matlab\stateflow\c\mex\include"  -I"D:\program files\Matlab\rtw\c\src"  -I"D:\Work\AbdulProjects\Abdul_Solar_Charge_Station\Version0\slprj\_sfprj\V3_2_MatlabFn_UnitTest\_self\sfun\src"  -I"D:\program files\Matlab\sys\lcc64\lcc64\include64" 
+ 
+
+V3_2_MatlabFn_UnitTest_sfun.mexw64 : $(MAKEFILE) $(OBJECTS)
+	$(LD) $(LDFLAGS) -o V3_2_MatlabFn_UnitTest_sfun.mexw64 @V3_2_MatlabFn_UnitTest_sfun.lmko
+V3_2_MatlabFn_UnitTest_sfun.obj :	"V3_2_MatlabFn_UnitTest_sfun.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "V3_2_MatlabFn_UnitTest_sfun.c"
+c1_V3_2_MatlabFn_UnitTest.obj :	"c1_V3_2_MatlabFn_UnitTest.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c1_V3_2_MatlabFn_UnitTest.c"
+V3_2_MatlabFn_UnitTest_sfun_registry.obj :	"V3_2_MatlabFn_UnitTest_sfun_registry.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "V3_2_MatlabFn_UnitTest_sfun_registry.c"
+lccstub.obj :	"D:\program files\Matlab\sys\lcc64\lcc64\mex\lccstub.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "D:\program files\Matlab\sys\lcc64\lcc64\mex\lccstub.c"
+c_mexapi_version.obj :	"D:\program files\Matlab\extern\version\c_mexapi_version.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "D:\program files\Matlab\extern\version\c_mexapi_version.c"
