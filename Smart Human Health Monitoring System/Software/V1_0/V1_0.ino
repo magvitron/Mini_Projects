@@ -62,6 +62,11 @@ void interrupt_handler()
 {
   pulse_counter += 1;
 }
+
+void sendSMS_Now()
+{
+
+}
 /**
    @breif Loop
    @return None
@@ -83,10 +88,33 @@ void loop() {
   lcd.print("P:");
   lcd.print(readPress());
   lcd.print("mmHg");
+  char  charbuf[30];
+  if (readTemp() > 40)
+  {
+    sprintf(charbuf, "https://blynk.io/T%d_P%d_B%d", (int)readTemp(), (int)readPress(), (int) heart_beat);
+    Serial.println("--------------Sending Tem emergency data-------------------");
+    Serial.println(charbuf);
+    sendSMS_Now();
+    Serial.println("------------------Done-----------------------");
+  } else if (heart_beat > 115)
+  {
+    sprintf(charbuf, "https://blynk.io/T%d_P%d_B%d", (int)readTemp(), (int)readPress(), (int) heart_beat);
+    Serial.println("--------------Sending data-------------------");
+    Serial.println(charbuf);
+    sendSMS_Now();
+    Serial.println("------------------Done-----------------------");
+  } else if (readPress() > 110)
+  {
+    sprintf(charbuf, "https://blynk.io/T%d_P%d_B%d", (int)readTemp(), (int)readPress(), (int) heart_beat);
+    Serial.println("--------------Sending data-------------------");
+    Serial.println(charbuf);
+    sendSMS_Now();
+    Serial.println("------------------Done-----------------------");
+  }
   /* */
   readGPS();
-  char  charbuf[30];
-  sprintf(charbuf, "https://blynk.io/T%d_P%d_B%d", (int)readTemp(), (int)readPress(),(int) heart_beat);
+
+  sprintf(charbuf, "https://blynk.io/T%d_P%d_B%d", (int)readTemp(), (int)readPress(), (int) heart_beat);
   Serial.println("--------------Sending data-------------------");
   Serial.println(charbuf);
   Serial.println("------------------Done-----------------------");
