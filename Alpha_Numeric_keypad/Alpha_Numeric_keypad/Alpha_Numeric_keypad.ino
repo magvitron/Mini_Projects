@@ -1,5 +1,6 @@
 #include <Keypad.h>
 #define DEBUG 1
+#define ARRAY_SIZE 24
 
 #define TIME_OUT 50
 enum KEYPAD_TYPE {
@@ -15,7 +16,7 @@ char ALPHA_keys[ROWS][COLS] = {
   {' ', 'a', 'd'},
   {'g', 'j', 'm'},
   {'p', 't', 'w'},
-  {'*', '0', '#'}
+  {'*', ' ', '#'}
 };
 char NUM_keys[ROWS][COLS] = {
   {'1', '2', '3'},
@@ -26,9 +27,10 @@ char NUM_keys[ROWS][COLS] = {
 
 byte rowPins[ROWS] = {11, 12, 13, A0}; //connect to the row pinouts of the keypad
 byte colPins[COLS] = {10, 9, 8}; //connect to the column pinouts of the keypad
-
 uint8_t keyPadMode = ALPHA_KEYPAD;
 
+uint8_t index = 0;
+char GAC_Data[ARRAY_SIZE] = {0};
 //Create an object of keypad
 Keypad Alphakeypad = Keypad( makeKeymap(ALPHA_keys), rowPins, colPins, ROWS, COLS );
 Keypad Numkeypad = Keypad( makeKeymap(NUM_keys), rowPins, colPins, ROWS, COLS );
@@ -37,9 +39,9 @@ void setup() {
   Serial.println("Started");
 }
 /*
- * get the typf of key
- * 
- */
+   get the typf of key
+
+*/
 
 char get_Type_Key()
 {
@@ -72,21 +74,39 @@ void loop() {
   {
     if (key == '*')
     {
+      Serial.println(GAC_Data);
       keyPadMode++;
       if (keyPadMode > NUMERIC_KEYPAD)
       {
         keyPadMode = ALPHA_KEYPAD;
       }
-      delay(1000);
+      delay(500);
       key = 0;
-      Serial.print("Alpha=0, upper=1, numeric:2 ");
+      Serial.print("Alpha=0, upper=1, numeric:2 Current :");
       Serial.println(keyPadMode);
-    } else {
+    }
+    else if (key == '#')
+    {
+      Serial.println(GAC_Data);
+      for (int count = 0; count < ARRAY_SIZE; count++)
+      {
+        GAC_Data[count] = 0;
+      }
+      Serial.println("Cleared");
+    }
+    else
+    {
       tempKey = key;
+      Serial.println(key);
       if ((key == 'p' || key == 'w' || key == 'P' || key == 'W'))
       {
         upCount = 3;
-      } else if (keyPadMode == NUMERIC_KEYPAD)
+      }
+      else if (key == ' ')
+      {
+        upCount = 0;
+      }
+      else if (keyPadMode == NUMERIC_KEYPAD)
       {
         upCount = 0;
       }
@@ -97,23 +117,26 @@ void loop() {
         {
           if (temp != tempKey)
           {
-            Serial.println("axxd");
             timeOutCount = TIME_OUT;
           } else {
-            Serial.println("asdasd");
             key++;
             timeOutCount = 0;
             if (key - tempKey > upCount)
             {
               key = tempKey;
             }
+            Serial.println(key);
           }
         }
-        Serial.println(key);
+
         delay(10);
         timeOutCount++;
       }
-      Serial.println(key);
+      GAC_Data[index] = key;
+      index++;
+      if (index > ARRAY_SIZE)
+        index = 0;
+      Serial.println(GAC_Data);
     }
   }
 }
