@@ -5,9 +5,9 @@
    @author Manu krishnan magvitron@gmail.com
    @date 16-07-2021
 */
-#define DEBUG 1
+#define DEBUG 0
 #define ARRAY_SIZE 24 /**Global array size*/
-#define TIME_OUT 50 /**Time out for key press after this
+#define TIME_OUT 100 /**Time out for key press after this
   the key will asign the value*/
 /*
   @version 1.0
@@ -37,12 +37,12 @@ char NUM_keys[ROWS][COLS] = {
   {'7', '8', '9'},
   {'*', '0', '#'}
 };
-byte rowPins[ROWS] = {11, 12, 13, A0}; /*connect to the row pinouts of the keypad*/
-byte colPins[COLS] = {10, 9, 8}; /*connect to the column pinouts of the keypad*/
+byte rowPins[ROWS] = {15, 2, 4, 16}; /*connect to the row pinouts of the keypad*/
+byte colPins[COLS] = {17, 5, 18}; /*connect to the column pinouts of the keypad*/
 /**Keypad HW setup end*/
 
 uint8_t keyPadMode = ALPHA_KEYPAD;
-uint8_t index = 0;
+uint8_t arr_index = 0;
 char GAC_Data[ARRAY_SIZE] = {0};
 /**Create an object of keypad*/
 Keypad Alphakeypad = Keypad( makeKeymap(ALPHA_keys), rowPins, colPins, ROWS, COLS );
@@ -55,6 +55,7 @@ Keypad Numkeypad = Keypad( makeKeymap(NUM_keys), rowPins, colPins, ROWS, COLS );
 void setup() {
   Serial.begin(9600);
   Serial.println("Started");
+  delay(1000);
 }
 /*
   @brief Check the type of keypad and return the key
@@ -107,6 +108,8 @@ void loop() {
   key = get_Type_Key();
   if (key)
   {
+    /**Key pad debouncing*/
+    delay(100);
     /** check for control keys (* -> chages the keypad layoyt) */
     if (key == '*')
     {
@@ -168,6 +171,9 @@ void loop() {
       */
       while (TIME_OUT >= timeOutCount)
       {
+#if DEBUG ==1
+        Serial.println(timeOutCount);
+#endif
         temp = get_Type_Key();
         if (temp)
         {
@@ -196,12 +202,15 @@ void loop() {
         /** Increment timeout*/
         timeOutCount++;
       }
+#if DEBUG ==1
+      Serial.println("Inserted to array");
+#endif
       /** Save in gloabal array*/
-      GAC_Data[index] = key;
-      index++;
-      /** Reset the index of global array*/
-      if (index > ARRAY_SIZE)
-        index = 0;
+      GAC_Data[arr_index] = key;
+      arr_index++;
+      /** Reset the arr_index of global array*/
+      if (arr_index > ARRAY_SIZE)
+        arr_index = 0;
       /**PRint the array*/
       Serial.println(GAC_Data);
     }
